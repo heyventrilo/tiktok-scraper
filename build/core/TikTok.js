@@ -25,7 +25,7 @@ const helpers_1 = require("../helpers");
 const _ = __importStar(require("lodash"));
 const core_1 = require("../core");
 class TikTokScraper extends events_1.EventEmitter {
-    constructor({ download, filepath, filetype, proxy, strictSSL = true, asyncDownload, cli = false, event = false, progress = false, input, number, since, type, by_user_id = false, store_history = false, historyPath = '', noWaterMark = false, useTestEndpoints = false, fileName = '', timeout = 0, bulk = false, zip = false, test = false, hdVideo = false, webHookUrl = '', method = 'POST', headers, verifyFp = '', sessionList = [], }) {
+    constructor({ download, filepath, filetype, proxy, strictSSL = true, asyncDownload, cli = false, event = false, progress = false, input, number, since, type, by_user_id = false, store_history = false, historyPath = '', noWaterMark = false, useTestEndpoints = false, fileName = '', timeout = 0, bulk = false, zip = false, test = false, hdVideo = false, webHookUrl = '', method = 'POST', headers, verifyFp = '', sessionList = [], maxCursor = 0, minCursor = 0 }) {
         super();
         this.storeValue = '';
         this.userIdStore = '';
@@ -68,7 +68,8 @@ class TikTokScraper extends events_1.EventEmitter {
         this.historyPath = process.env.SCRAPING_FROM_DOCKER ? '/usr/app/files' : historyPath || os_1.tmpdir();
         this.idStore = '';
         this.noWaterMark = noWaterMark;
-        this.maxCursor = 0;
+        this.maxCursor = maxCursor;
+        this.minCursor = minCursor;
         this.noDuplicates = [];
         this.timeout = timeout;
         this.bulk = bulk;

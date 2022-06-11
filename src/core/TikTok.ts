@@ -89,6 +89,8 @@ export class TikTokScraper extends EventEmitter {
 
     private storeValue: string = '';
 
+    private minCursor: number;
+
     private maxCursor: number;
 
     private noWaterMark: boolean;
@@ -160,6 +162,8 @@ export class TikTokScraper extends EventEmitter {
         headers,
         verifyFp = '',
         sessionList = [],
+        maxCursor = 0,
+        minCursor = 0
     }: TikTokConstructor) {
         super();
         this.userIdStore = '';
@@ -203,7 +207,8 @@ export class TikTokScraper extends EventEmitter {
         this.historyPath = process.env.SCRAPING_FROM_DOCKER ? '/usr/app/files' : historyPath || tmpdir();
         this.idStore = '';
         this.noWaterMark = noWaterMark;
-        this.maxCursor = 0;
+        this.maxCursor = maxCursor;
+        this.minCursor = minCursor;
         this.noDuplicates = [];
         this.timeout = timeout;
         this.bulk = bulk;

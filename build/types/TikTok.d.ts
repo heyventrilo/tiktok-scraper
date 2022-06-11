@@ -67,6 +67,8 @@ export interface TikTokConstructor {
     headers: Headers;
     verifyFp?: string;
     sessionList?: string[];
+    maxCursor?: number;
+    minCursor?: number;
 }
 export interface Hashtags {
     id: string;
