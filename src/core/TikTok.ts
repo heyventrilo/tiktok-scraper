@@ -645,6 +645,11 @@ export class TikTokScraper extends EventEmitter {
             if ((!result.itemListData) && (updatedApiResponse && !result.itemList) || (!updatedApiResponse && !result.items)) {
                 throw new Error('No more posts');
             }
+            this.maxCursor = parseInt(maxCursor === undefined ? cursor : maxCursor, 10);
+            this.hasMore = hasMore;
+
+            console.log(this.maxCursor,this.hasMore);
+
 
             const { done } = await this.collectPosts(result.itemListData ? result.itemListData : result.itemList);
             this.collector = _.reject(this.collector, _.isEmpty);
@@ -658,8 +663,6 @@ export class TikTokScraper extends EventEmitter {
                 return true;
             }
 
-            this.maxCursor = parseInt(maxCursor === undefined ? cursor : maxCursor, 10);
-            this.hasMore = hasMore;
             return false;
         } catch (error) {
             console.error(error)
