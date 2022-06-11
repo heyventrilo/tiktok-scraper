@@ -369,6 +369,7 @@ class TikTokScraper extends events_1.EventEmitter {
             if (result && result.statusCode !== 0) {
                 throw new Error(`Can't scrape more posts`);
             }
+            console.log(query, result);
             const { hasMore, maxCursor, cursor } = result;
             if ((!result.itemListData) && (updatedApiResponse && !result.itemList) || (!updatedApiResponse && !result.items)) {
                 throw new Error('No more posts');
