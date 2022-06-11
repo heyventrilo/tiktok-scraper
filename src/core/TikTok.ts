@@ -581,7 +581,7 @@ export class TikTokScraper extends EventEmitter {
                     switch (this.scrapeType) {
                         case 'user':
                             this.getUserId()
-                                .then(query => this.submitScrapingRequest({ ...query, cursor: this.maxCursor }, true)) //, cursor: this.maxCursor
+                                .then(query => this.submitScrapingRequest({ ...query, maxCursor: this.maxCursor }, true)) //, cursor: this.maxCursor
                                 .then(kill => cb(kill || null))
                                 .catch(error => cb(error));
                             break;
