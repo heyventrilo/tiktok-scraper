@@ -632,6 +632,7 @@ export class TikTokScraper extends EventEmitter {
             if (result && result.statusCode !== 0) {
                 throw new Error(`Can't scrape more posts`);
             }
+            console.log(query,result);
             const { hasMore, maxCursor, cursor } = result;
             if ((!result.itemListData) && (updatedApiResponse && !result.itemList) || (!updatedApiResponse && !result.items)) {
                 throw new Error('No more posts');
@@ -1243,7 +1244,7 @@ export class TikTokScraper extends EventEmitter {
             catch(e){
                 statusCode = Object(e)['statusCode']
             }
-            
+
             /**
              * {
   "0": "OK",
@@ -1287,12 +1288,12 @@ export class TikTokScraper extends EventEmitter {
 }
              */
             switch(statusCode){
-                case 10202 :  
+                case 10202 :
                 case 404 :  throw new Error(`${statusCode} User does not exist`);
                 case 200 :
                 default : throw new Error(`${statusCode} transient error`);
 
-            }  
+            }
         }
         throw new Error(`Can't extract user metadata from the html page. Make sure that user does exist and try to use proxy`);
     }
@@ -1446,7 +1447,7 @@ export class TikTokScraper extends EventEmitter {
                 method: 'HEAD',
                 followAllRedirects:false,
                 followRedirect:false,
-        
+
             }).then(res=>{
                 response =  res.request.uri.href
             }).catch(e=>{
@@ -1467,7 +1468,7 @@ export class TikTokScraper extends EventEmitter {
         // test new tiktok post shortlinks
         let shortLinkLvl1 = /vm.tiktok.com\/([\w.-]+)/
         let shortLinkLvl2 = /m.tiktok.com\/([\w.-]+)\/(\d+)/
-        let targetLinkregex = /tiktok.com\/(@[\w.-]+)\/video\/(\d+)/ 
+        let targetLinkregex = /tiktok.com\/(@[\w.-]+)\/video\/(\d+)/
 
         // test and solve for short and long URLs
         while(!targetLinkregex.exec(url)){
@@ -1481,8 +1482,8 @@ export class TikTokScraper extends EventEmitter {
             }
         }
 
-        
-        
+
+
         const videoData = targetLinkregex.exec(url);
         if (videoData) {
             const videoUsername = videoData[1];
