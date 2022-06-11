@@ -132,6 +132,8 @@ export class TikTokScraper extends EventEmitter {
 
     public cookieJar: CookieJar;
 
+    private hasMore = false;
+
     constructor({
         download,
         filepath,
@@ -470,6 +472,8 @@ export class TikTokScraper extends EventEmitter {
         return {
             headers: { ...this.headers, cookie: this.cookieJar.getCookieString('https://tiktok.com') },
             collector: this.collector,
+            maxCursor: this.maxCursor,
+            hasMore: this.hasMore,
             ...(this.download ? { zip } : {}),
             ...(this.filetype === 'all' ? { json, csv } : {}),
             ...(this.filetype === 'json' ? { json } : {}),
@@ -637,7 +641,6 @@ export class TikTokScraper extends EventEmitter {
             if (result && result.statusCode !== 0) {
                 throw new Error(`Can't scrape more posts`);
             }
-            console.log(query,result);
             const { hasMore, maxCursor, cursor } = result;
             if ((!result.itemListData) && (updatedApiResponse && !result.itemList) || (!updatedApiResponse && !result.items)) {
                 throw new Error('No more posts');
@@ -656,6 +659,7 @@ export class TikTokScraper extends EventEmitter {
             }
 
             this.maxCursor = parseInt(maxCursor === undefined ? cursor : maxCursor, 10);
+            this.hasMore = hasMore;
             return false;
         } catch (error) {
             console.error(error)

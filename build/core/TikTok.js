@@ -28,6 +28,7 @@ class TikTokScraper extends events_1.EventEmitter {
     constructor({ download, filepath, filetype, proxy, strictSSL = true, asyncDownload, cli = false, event = false, progress = false, input, number, since, type, by_user_id = false, store_history = false, historyPath = '', noWaterMark = false, useTestEndpoints = false, fileName = '', timeout = 0, bulk = false, zip = false, test = false, hdVideo = false, webHookUrl = '', method = 'POST', headers, verifyFp = '', sessionList = [], maxCursor = 0, minCursor = 0 }) {
         super();
         this.storeValue = '';
+        this.hasMore = false;
         this.userIdStore = '';
         this.verifyFp = verifyFp;
         this.mainHost = useTestEndpoints ? 'https://t.tiktok.com/' : 'https://m.tiktok.com/';
@@ -255,7 +256,7 @@ class TikTokScraper extends events_1.EventEmitter {
         if (this.webHookUrl) {
             await this.sendDataToWebHookUrl();
         }
-        return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({ headers: Object.assign(Object.assign({}, this.headers), { cookie: this.cookieJar.getCookieString('https://tiktok.com') }), collector: this.collector }, (this.download ? { zip } : {})), (this.filetype === 'all' ? { json, csv } : {})), (this.filetype === 'json' ? { json } : {})), (this.filetype === 'csv' ? { csv } : {})), (this.webHookUrl ? { webhook: this.httpRequests } : {}));
+        return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({ headers: Object.assign(Object.assign({}, this.headers), { cookie: this.cookieJar.getCookieString('https://tiktok.com') }), collector: this.collector, maxCursor: this.maxCursor, hasMore: this.hasMore }, (this.download ? { zip } : {})), (this.filetype === 'all' ? { json, csv } : {})), (this.filetype === 'json' ? { json } : {})), (this.filetype === 'csv' ? { csv } : {})), (this.webHookUrl ? { webhook: this.httpRequests } : {}));
     }
     withoutWatermark() {
         return new Promise((resolve, reject) => {
@@ -370,7 +371,6 @@ class TikTokScraper extends events_1.EventEmitter {
             if (result && result.statusCode !== 0) {
                 throw new Error(`Can't scrape more posts`);
             }
-            console.log(query, result);
             const { hasMore, maxCursor, cursor } = result;
             if ((!result.itemListData) && (updatedApiResponse && !result.itemList) || (!updatedApiResponse && !result.items)) {
                 throw new Error('No more posts');
@@ -385,6 +385,7 @@ class TikTokScraper extends events_1.EventEmitter {
                 return true;
             }
             this.maxCursor = parseInt(maxCursor === undefined ? cursor : maxCursor, 10);
+            this.hasMore = hasMore;
             return false;
         }
         catch (error) {

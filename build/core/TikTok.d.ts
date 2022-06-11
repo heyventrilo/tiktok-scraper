@@ -48,6 +48,7 @@ export declare class TikTokScraper extends EventEmitter {
     private verifyFp;
     private store;
     cookieJar: CookieJar;
+    private hasMore;
     constructor({ download, filepath, filetype, proxy, strictSSL, asyncDownload, cli, event, progress, input, number, since, type, by_user_id, store_history, historyPath, noWaterMark, useTestEndpoints, fileName, timeout, bulk, zip, test, hdVideo, webHookUrl, method, headers, verifyFp, sessionList, maxCursor, minCursor }: TikTokConstructor);
     private get fileDestination();
     private get folderDestination();
