@@ -1239,6 +1239,8 @@ export class TikTokScraper extends EventEmitter {
         const response = await rp(url,options);
 
         let parsedResponse = JSON.parse(response)
+        console.log("profile information");
+        console.log(parsedResponse);
         let emptyResponse = _.isEmpty(_.get(parsedResponse, 'userInfo'))
         let statusCode = _.get(parsedResponse, 'statusCode')
         if (!emptyResponse) {
