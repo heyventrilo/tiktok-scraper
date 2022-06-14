@@ -58,8 +58,8 @@ export declare class TikTokScraper extends EventEmitter {
     private returnInitError;
     scrape(): Promise<Result | any>;
     private withoutWatermark;
-    private extractVideoId;
-    private getUrlWithoutTheWatermark;
+    extractVideoId(item: PostCollector): Promise<string>;
+    getUrlWithoutTheWatermark(uri: string): Promise<string>;
     private mainLoop;
     private submitScrapingRequest;
     private saveCollectorData;

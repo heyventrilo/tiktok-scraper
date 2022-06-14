@@ -516,7 +516,7 @@ export class TikTokScraper extends EventEmitter {
      * @param uri
      */
     // eslint-disable-next-line class-methods-use-this
-    private async extractVideoId(item: PostCollector): Promise<string> {
+    async extractVideoId(item: PostCollector): Promise<string> {
         if (item.createTime > 1595808000) {
             return '';
         }
@@ -546,7 +546,7 @@ export class TikTokScraper extends EventEmitter {
      * The url has expiration time (between 5-20 minutes+-)
      * @param uri
      */
-    private async getUrlWithoutTheWatermark(uri: string): Promise<string> {
+     async getUrlWithoutTheWatermark(uri: string): Promise<string> {
         if (!uri) {
             return '';
         }
