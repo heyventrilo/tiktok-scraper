@@ -517,9 +517,6 @@ export class TikTokScraper extends EventEmitter {
      */
     // eslint-disable-next-line class-methods-use-this
     async extractVideoId(item: PostCollector): Promise<string> {
-        if (item.createTime > 1595808000) {
-            return '';
-        }
 
         try {
             const result = await rp({

@@ -277,9 +277,6 @@ class TikTokScraper extends events_1.EventEmitter {
         });
     }
     async extractVideoId(item) {
-        if (item.createTime > 1595808000) {
-            return '';
-        }
         try {
             const result = await request_promise_1.default({
                 uri: item.videoUrl,
