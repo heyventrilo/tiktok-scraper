@@ -299,6 +299,10 @@ export interface MusicMetadata {
         desc: string;
     };
 }
+export interface BioLinkdata {
+    "link": string;
+    "risk": number;
+}
 export interface UserMetadata {
     user: {
         id: string;
@@ -318,6 +322,7 @@ export interface UserMetadata {
         duetSetting: number;
         stitchSetting: number;
         privateAccount: boolean;
+        bioLink: BioLinkdata;
     };
     stats: {
         followingCount: number;
