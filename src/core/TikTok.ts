@@ -438,7 +438,6 @@ export class TikTokScraper extends EventEmitter {
         if (this.scrapeType !== 'trend' && !this.input) {
             return this.returnInitError('Missing input');
         }
-        console.log('version v2.8')
         await this.mainLoop();
 
         if (this.event) {
@@ -645,8 +644,6 @@ export class TikTokScraper extends EventEmitter {
             this.maxCursor = parseInt(maxCursor === undefined ? cursor : maxCursor, 10);
             this.hasMore = hasMore;
 
-            console.log(this.maxCursor,this.hasMore);
-
 
             const { done } = await this.collectPosts(result.itemListData ? result.itemListData : result.itemList);
             this.collector = _.reject(this.collector, _.isEmpty);
@@ -812,8 +809,6 @@ export class TikTokScraper extends EventEmitter {
 
     private mapItem(post) {
         let item = {}
-        // console.log(this.scrapeType)
-        // console.log(post)
         if (this.scrapeType == 'user') {
             if (this.noDuplicates.indexOf(post.itemInfos.id) === -1) {
                 this.noDuplicates.push(post.itemInfos.id);
@@ -1201,7 +1196,6 @@ export class TikTokScraper extends EventEmitter {
      * @param {} username
      */
     public async getUserProfileInfo(): Promise<UserMetadata> {
-        console.log('running version -- v2.8')
         if (!this.input) {
             throw new Error(`Username is missing`);
         }
@@ -1230,14 +1224,11 @@ export class TikTokScraper extends EventEmitter {
         };
 
         !_.isNil(this.proxy) ? _.extend(options,{proxy:this.proxy}) : ''
-        console.log('using proxy ...', this.proxy)
 
 
         const response = await rp(url,options);
 
         let parsedResponse = JSON.parse(response)
-        console.log("profile information");
-        console.log(parsedResponse);
         let emptyResponse = _.isEmpty(_.get(parsedResponse, 'userInfo'))
         let statusCode = _.get(parsedResponse, 'statusCode')
         if (!emptyResponse) {
@@ -1485,7 +1476,6 @@ export class TikTokScraper extends EventEmitter {
         while(!targetLinkregex.exec(url)){
             url = await this.getVideoLink(url || this.input, shortLinkLvl1,shortLinkLvl2, targetLinkregex)
             count +=1
-            console.log('url is', url)
 
             //infinite loop safe guard
             if(count > 3){
@@ -1534,10 +1524,8 @@ export class TikTokScraper extends EventEmitter {
 
         let videoData = {} as any;
         if (false) {
-            console.log('getting getVideoMetadataFromHtml')
             videoData = await this.getVideoMetadataFromHtml();
         } else {
-            console.log('getting getVideoMetadataFromAPI')
             videoData = await this.getVideoMetadata();
         }
 

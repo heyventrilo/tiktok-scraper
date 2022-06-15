@@ -233,7 +233,6 @@ class TikTokScraper extends events_1.EventEmitter {
         if (this.scrapeType !== 'trend' && !this.input) {
             return this.returnInitError('Missing input');
         }
-        console.log('version v2.8');
         await this.mainLoop();
         if (this.event) {
             return this.emit('done', 'completed');
@@ -374,7 +373,6 @@ class TikTokScraper extends events_1.EventEmitter {
             }
             this.maxCursor = parseInt(maxCursor === undefined ? cursor : maxCursor, 10);
             this.hasMore = hasMore;
-            console.log(this.maxCursor, this.hasMore);
             const { done } = await this.collectPosts(result.itemListData ? result.itemListData : result.itemList);
             this.collector = _.reject(this.collector, _.isEmpty);
             if (!hasMore) {
@@ -778,7 +776,6 @@ class TikTokScraper extends events_1.EventEmitter {
         }
     }
     async getUserProfileInfo() {
-        console.log('running version -- v2.8');
         if (!this.input) {
             throw new Error(`Username is missing`);
         }
@@ -805,11 +802,8 @@ class TikTokScraper extends events_1.EventEmitter {
             }
         };
         !_.isNil(this.proxy) ? _.extend(options, { proxy: this.proxy }) : '';
-        console.log('using proxy ...', this.proxy);
         const response = await request_promise_1.default(url, options);
         let parsedResponse = JSON.parse(response);
-        console.log("profile information");
-        console.log(parsedResponse);
         let emptyResponse = _.isEmpty(_.get(parsedResponse, 'userInfo'));
         let statusCode = _.get(parsedResponse, 'statusCode');
         if (!emptyResponse) {
@@ -971,7 +965,6 @@ class TikTokScraper extends events_1.EventEmitter {
         while (!targetLinkregex.exec(url)) {
             url = await this.getVideoLink(url || this.input, shortLinkLvl1, shortLinkLvl2, targetLinkregex);
             count += 1;
-            console.log('url is', url);
             if (count > 3) {
                 break;
             }
@@ -1006,11 +999,9 @@ class TikTokScraper extends events_1.EventEmitter {
         }
         let videoData = {};
         if (false) {
-            console.log('getting getVideoMetadataFromHtml');
             videoData = await this.getVideoMetadataFromHtml();
         }
         else {
-            console.log('getting getVideoMetadataFromAPI');
             videoData = await this.getVideoMetadata();
         }
         const videoItem = {
